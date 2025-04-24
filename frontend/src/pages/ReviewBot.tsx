@@ -42,7 +42,7 @@ const ReviewBot: React.FC = () => {
     console.log("Fetching product data for URL:", url);
 
     axios
-      .get(`http://127.0.0.1:5000/productURL?url=${encodeURIComponent(url)}`)
+      .get(`https://sentiment-analysis-amazon-h78v.onrender.com/productURL?url=${encodeURIComponent(url)}`)
       .then((response) => {
         console.log("API Response:", response.data);
 
