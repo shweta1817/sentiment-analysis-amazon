@@ -143,4 +143,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For any inquiries, feel free to contact me at [imravipanday@gmail.com].
+For any inquiries, feel free to contact me at [shwetabandawane@gmail.com].
