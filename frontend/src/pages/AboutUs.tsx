@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaMapMarkerAlt, FaEnvelope, FaPhone, FaBrain, FaChartLine, FaUserShield } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 

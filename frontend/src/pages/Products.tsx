@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaStar, FaHistory, FaShoppingCart } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
