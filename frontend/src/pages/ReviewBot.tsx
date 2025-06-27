@@ -74,7 +74,7 @@ const ReviewBot: React.FC = () => {
     setError(null);
 
     axios
-      .get(`http://127.0.0.1:5000/productURL?url=${encodeURIComponent(url)}`)
+      .get(`https://sentiment-analysis-amazon-h78v.onrender.com/productURL?url=${encodeURIComponent(url)}`)
       .then((response) => {
         const data = response.data;
         const formattedProduct: Product = {
@@ -218,7 +218,7 @@ const ReviewBot: React.FC = () => {
                         ))}
                       </div>
                       <span className="text-gray-900 font-medium ml-1">
-                        {product.rating.toFixed(1)}
+                        {typeof product.rating === "number" ? product.rating.toFixed(1) : "N/A"}
                       </span>
                     </div>
                     <span className="text-gray-600">
@@ -276,7 +276,7 @@ const ReviewBot: React.FC = () => {
                       <span className="text-purple-600 font-bold">₹{item.price}</span>
                       <div className="flex items-center">
                         <FaStar className="text-yellow-400 mr-1" />
-                        <span>{item.rating.toFixed(1)}</span>
+                        <span>{typeof item.rating === "number" ? item.rating.toFixed(1) : "N/A"}</span>
                       </div>
                     </div>
                     <a

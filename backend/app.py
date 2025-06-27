@@ -23,7 +23,11 @@ def scrape_product():
 
         if not result:
             print("Scraping returned None.")
-            return jsonify({"error": "Failed to scrape the product data"}), 500
+            return jsonify({"error": "Unknown error occurred"}), 500
+
+        if isinstance(result, dict) and result.get("error"):
+            print(f"Scraping returned error: {result['error']}")
+            return jsonify(result), 500
 
         print("Scraping succeeded.")
         return jsonify(result)
