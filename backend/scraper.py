@@ -4,9 +4,6 @@ from textblob import TextBlob
 
 
 def extract_product_details(soup):
-    """
-    Extracts product details like name, price, image URL, description, and rating from the page.
-    """
     product_name = soup.find("span", {"id": "productTitle"})
     product_name = product_name.get_text(strip=True) if product_name else "No product name available"
 
@@ -20,7 +17,7 @@ def extract_product_details(soup):
     description = description.get_text(strip=True) if description else "No description available"
 
     rating = soup.find("span", {"class": "a-icon-alt"})
-    rating = rating.get_text(strip=True) if rating else "No rating"
+    rating = rating.get_text(strip=True) if rating else "0 out of 5 stars"
 
     return {
         "Product Name": product_name,
@@ -32,9 +29,6 @@ def extract_product_details(soup):
 
 
 def extract_reviews(soup):
-    """
-    Extracts reviews from the Amazon product page.
-    """
     reviews = []
     review_elements = soup.find_all("li", {"data-hook": "review"})
     for review in review_elements:
@@ -46,20 +40,20 @@ def extract_reviews(soup):
 
 def get_product_sentiment(url):
     print("🌐 Sending request to:", url)
-    
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
     }
-    response = requests.get(url, headers=headers)
 
+    response = requests.get(url, headers=headers)
     print("Status Code:", response.status_code)
-    
+
     if response.status_code != 200:
-        print("Failed to fetch the page.")
+        print("❌ Failed to fetch the page.")
         return None
 
     if "captcha" in response.text.lower():
-        print("CAPTCHA detected")
+        print("🛑 CAPTCHA detected")
         return {"error": "Amazon blocked the request with CAPTCHA"}
 
     soup = BeautifulSoup(response.content, "html.parser")
@@ -71,7 +65,6 @@ def get_product_sentiment(url):
         reviews = extract_reviews(soup)
         print("📝 Number of reviews found:", len(reviews))
 
-        # safe float parsing
         try:
             rating_text = product_details.get("Overall Rating", "0 out of 5 stars")
             overall_rating = float(rating_text.split()[0])
@@ -79,7 +72,6 @@ def get_product_sentiment(url):
             print("⚠️ Error parsing rating:", e)
             overall_rating = 0.0
 
-        # sentiment
         positive_reviews = []
         for review in reviews:
             try:
@@ -112,47 +104,3 @@ def get_product_sentiment(url):
     except Exception as e:
         print("🔥 Parsing failed:", e)
         return None
-
-    """
-    Scrapes product details and reviews from Amazon and analyzes sentiment.
-    """
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
-    response = requests.get(url, headers=headers)
-
-    if response.status_code != 200:
-        print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
-        return None
-
-    soup = BeautifulSoup(response.content, "html.parser")
-
-    # Extract product details and reviews
-    product_details = extract_product_details(soup)
-    reviews = extract_reviews(soup)
-
-    # Analyze sentiment of reviews 
-    positive_reviews = [review for review in reviews if TextBlob(review).sentiment.polarity > 0]
-    positive_percentage = (len(positive_reviews) / len(reviews)) * 100 if reviews else 0
-
-    # Extract overall rating
-    overall_rating = float(product_details.get("Overall Rating", 0).split()[0])
-
-    # Provide recommendation based on positive review percentage
-    if positive_percentage > 70:
-        recommendation = "Highly recommended product for purchase."
-    elif positive_percentage >= 50:
-        recommendation = "The product is decent. Consider purchasing."
-    else:
-        recommendation = "The product is not recommended based on reviews."
-
-    result = {
-        "Product Name": product_details["Product Name"],
-        "Price": product_details["Price"],
-        "Image URL": product_details["Image URL"],
-        "Description": product_details["Description"],
-        "Overall Rating": overall_rating,
-        "Positive Review Percentage": f"{positive_percentage:.2f}%",
-        "Recommendation": recommendation,
-    }
-
-    return result
