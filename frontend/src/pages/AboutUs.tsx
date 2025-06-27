@@ -1,107 +1,346 @@
-
+import React from 'react';
+import { FaMapMarkerAlt, FaEnvelope, FaPhone, FaBrain, FaChartLine, FaUserShield } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const AboutUs = () => {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  // Team members data
+  const teamMembers = [
+    {
+      name: "Dr. Sarah Chen",
+      role: "AI Research Lead",
+      bio: "PhD in Natural Language Processing from Stanford. Former Google AI researcher.",
+      image: "https://randomuser.me/api/portraits/women/44.jpg"
+    },
+    {
+      name: "James Rodriguez",
+      role: "Data Scientist",
+      bio: "Specializes in sentiment analysis and review classification algorithms.",
+      image: "https://randomuser.me/api/portraits/men/32.jpg"
+    },
+    {
+      name: "Priya Patel",
+      role: "Product Manager",
+      bio: "E-commerce expert with 8 years experience at Amazon and Flipkart.",
+      image: "https://randomuser.me/api/portraits/women/68.jpg"
+    }
+  ];
+
+  // Features data
+  const features = [
+    {
+      icon: <FaBrain className="text-purple-600 text-3xl mb-4" />,
+      title: "Advanced NLP",
+      description: "Our models understand context, sarcasm, and nuanced opinions in reviews."
+    },
+    {
+      icon: <FaChartLine className="text-purple-600 text-3xl mb-4" />,
+      title: "Trend Analysis",
+      description: "Track product sentiment changes over time to spot emerging issues."
+    },
+    {
+      icon: <FaUserShield className="text-purple-600 text-3xl mb-4" />,
+      title: "Fake Review Detection",
+      description: "Proprietary algorithms identify and filter out suspicious reviews."
+    }
+  ];
+
   return (
-    <div>
-      <div className="sm:flex items-center max-w-screen-xl mt-20">
-        <div className="sm:w-1/2 p-10">
-          <div className="image object-center text-center">
-            <img src="https://thumbs.dreamstime.com/b/ai-enhanced-customer-feedback-analysis-abstract-concept-vector-illustration-e-commerce-analyze-reviews-sentiment-tools-334158368.jpg" alt="Sentiment Analysis" />
+    <div className="bg-gray-50">
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-r from-purple-700 to-indigo-800 text-white py-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="text-center"
+          >
+            <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl font-bold mb-6">
+              About <span className="text-purple-300">ReviewAI</span>
+            </motion.h1>
+            <motion.p variants={itemVariants} className="text-xl max-w-3xl mx-auto">
+              Harnessing the power of AI to transform e-commerce decision making
+            </motion.p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:w-1/2"
+            >
+              <img 
+                src="https://img.freepik.com/free-vector/artificial-intelligence-isometric-flowchart_1284-28778.jpg" 
+                alt="AI Analysis" 
+                className="rounded-xl shadow-xl w-full"
+              />
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:w-1/2"
+            >
+              <span className="text-purple-600 font-medium uppercase tracking-wider">
+                Our Mission
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2 mb-6">
+                Decoding Customer Sentiment with <span className="text-purple-600">AI</span>
+              </h2>
+              <p className="text-gray-600 text-lg mb-6">
+                We specialize in <strong>Amazon product sentiment analysis</strong>, utilizing cutting-edge NLP to extract valuable insights from customer reviews. Our advanced AI-driven tools analyze feedback at scale, helping both businesses and consumers make informed decisions.
+              </p>
+              <div className="space-y-4">
+                {features.map((feature, index) => (
+                  <div key={index} className="flex items-start">
+                    <div className="flex-shrink-0 mt-1">
+                      {feature.icon}
+                    </div>
+                    <div className="ml-4">
+                      <h3 className="text-lg font-semibold text-gray-900">{feature.title}</h3>
+                      <p className="text-gray-600">{feature.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
-        <div className="sm:w-1/2 p-5">
-          <div className="text">
-            <span className="text-gray-500 border-b-2 border-purple-600 uppercase">
-              About us
-            </span>
-            <h2 className="my-4 font-bold text-3xl sm:text-4xl">
-              Powering Insights with <span className="text-purple-600 font-extrabold text-[2.8rem]">NLP & AI</span>
-            </h2>
-            <p className="text-gray-700">
-              We specialize in <strong>Amazon product sentiment analysis</strong>, utilizing NLP to extract valuable insights from customer reviews.
-              Our advanced AI-driven tools analyze feedback, helping businesses understand consumer opinions and make data-driven decisions.
-            </p>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-16 sm:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="text-center mb-16"
+          >
+            <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Meet Our <span className="text-purple-600">Team</span>
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-3xl mx-auto">
+              The brilliant minds behind our AI-powered review analysis platform
+            </motion.p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {teamMembers.map((member, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ y: -10 }}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all border border-gray-100"
+              >
+                <div className="h-64 bg-gray-100 flex items-center justify-center p-4">
+                  <img 
+                    src={member.image} 
+                    alt={member.name}
+                    className="h-full object-cover rounded-t-xl"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
+                  <p className="text-purple-600 font-medium mb-3">{member.role}</p>
+                  <p className="text-gray-600">{member.bio}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </div>
-      {/* Feedback Form */}
-      <section className="text-gray-600 body-font relative">
-        <div className="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
-          <div className="lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-            <iframe
-              width="100%"
-              height="100%"
-              className="absolute inset-0"
-              frameBorder={0}
-              title="map"
-              marginHeight={0}
-              marginWidth={0}
-              scrolling="no"
-              src="https://maps.google.com/maps?width=100%&height=600&hl=en&q=Amazon%20HQ&ie=UTF8&t=&z=14&iwloc=B&output=embed"
-              style={{ filter: "grayscale(1) contrast(1.2) opacity(0.4)" }}
-            />
-            <div className="bg-white relative flex flex-wrap py-6 rounded shadow-md">
-              <div className="lg:w-1/2 px-6">
-                <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs">
-                  ADDRESS
-                </h2>
-                <p className="mt-1">Amazon AI Research Center, Seattle, WA</p>
-              </div>
-              <div className="lg:w-1/2 px-6 mt-4 lg:mt-0">
-                <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs">
-                  EMAIL
-                </h2>
-                <a className="text-purple-500 leading-relaxed">contact@nlpinsights.com</a>
-                <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">
-                  PHONE
-                </h2>
-                <p className="leading-relaxed">+1 800-123-4567</p>
-              </div>
-            </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 sm:py-24 bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <h3 className="text-4xl sm:text-5xl font-bold mb-2">10M+</h3>
+              <p className="text-xl">Reviews Analyzed</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <h3 className="text-4xl sm:text-5xl font-bold mb-2">95%</h3>
+              <p className="text-xl">Accuracy Rate</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <h3 className="text-4xl sm:text-5xl font-bold mb-2">24/7</h3>
+              <p className="text-xl">AI Monitoring</p>
+            </motion.div>
           </div>
-          <div className="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-            <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">Feedback</h2>
-            <p className="leading-relaxed mb-5 text-gray-600">
-              Have thoughts on how AI is transforming e-commerce? Let us know!
-            </p>
-            <div className="relative mb-4">
-              <label htmlFor="name" className="leading-7 text-sm text-gray-600">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className="w-full bg-white rounded border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              />
-            </div>
-            <div className="relative mb-4">
-              <label htmlFor="email" className="leading-7 text-sm text-gray-600">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="w-full bg-white rounded border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              />
-            </div>
-            <div className="relative mb-4">
-              <label htmlFor="message" className="leading-7 text-sm text-gray-600">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                className="w-full bg-white rounded border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
-              />
-            </div>
-            <button className="text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded text-lg">
-              Submit
-            </button>
-            <p className="text-xs text-gray-500 mt-3">
-              Your feedback helps improve AI-driven product insights.
-            </p>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-16 sm:py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="text-center mb-16"
+          >
+            <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Get In <span className="text-purple-600">Touch</span>
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Have questions about our AI review analysis? We'd love to hear from you.
+            </motion.p>
+          </motion.div>
+
+          <div className="flex flex-col lg:flex-row gap-12">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:w-1/2 bg-white rounded-xl shadow-lg overflow-hidden"
+            >
+              <div className="h-full bg-gray-300 relative">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  className="absolute inset-0"
+                  frameBorder={0}
+                  title="map"
+                  marginHeight={0}
+                  marginWidth={0}
+                  scrolling="no"
+                  src="https://maps.google.com/maps?width=100%&height=600&hl=en&q=Amazon%20HQ&ie=UTF8&t=&z=14&iwloc=B&output=embed"
+                  style={{ filter: "grayscale(1) contrast(1.2) opacity(0.7)" }}
+                />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="flex flex-wrap">
+                      <div className="w-full md:w-1/2 mb-4 md:mb-0">
+                        <div className="flex items-center">
+                          <FaMapMarkerAlt className="text-purple-600 mr-3" />
+                          <span>Amazon AI Research Center, Seattle, WA</span>
+                        </div>
+                      </div>
+                      <div className="w-full md:w-1/2">
+                        <div className="flex items-center mb-3">
+                          <FaEnvelope className="text-purple-600 mr-3" />
+                          <a href="mailto:contact@nlpinsights.com" className="text-purple-600 hover:underline">
+                            contact@nlpinsights.com
+                          </a>
+                        </div>
+                        <div className="flex items-center">
+                          <FaPhone className="text-purple-600 mr-3" />
+                          <span>+1 800-123-4567</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:w-1/2 bg-white p-8 rounded-xl shadow-lg"
+            >
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
+              <form className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="your@email.com"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="Your message..."
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+                >
+                  Send Message
+                </button>
+              </form>
+            </motion.div>
           </div>
         </div>
       </section>

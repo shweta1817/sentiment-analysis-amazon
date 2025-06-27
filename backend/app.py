@@ -11,27 +11,27 @@ def hello():
 
 @app.route('/productURL', methods=['GET'])
 def scrape_product():
-    # Get the 'url' query parameter
     url = request.args.get('url')
 
-    # If no URL is provided, return a 400 error
     if not url:
         return jsonify({"error": "URL parameter is missing"}), 400
 
+    print(f"Received URL: {url}")
+
     try:
-        # Scrape product data and get sentiment
         result = get_product_sentiment(url)
 
-        # If the result is None (failed scraping), return a 500 error
         if not result:
+            print("Scraping returned None.")
             return jsonify({"error": "Failed to scrape the product data"}), 500
 
-        # Return the scraped result in JSON format
+        print("Scraping succeeded.")
         return jsonify(result)
 
     except Exception as e:
-        # Catch any exception and return a 500 error with the error message
+        print(f"Error during scraping: {e}")
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     # Ensure the app is running in debug mode for development
